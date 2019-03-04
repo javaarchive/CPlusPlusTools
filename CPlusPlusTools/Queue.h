@@ -1,18 +1,18 @@
 #include <vector>
 #pragma once
 template <class T>
-class Stack
+class Queue
 {
 	std::vector<T> storage;
 public:
-	Stack<T>() {
-		
+	Queue<T>() {
+
 	}
 
 	void push(T item);
 	T pop();
 	int length();
-	~Stack()
+	~Queue()
 	{
 		delete storage;
 	}
