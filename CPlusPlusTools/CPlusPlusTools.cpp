@@ -1,13 +1,24 @@
 // CPlusPlusTools.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include "pch.h"
 #include <iostream>
+#include <string>
 #include "Point.h"
+#include "Stack.h"
+#include "Queue.h"
+using namespace std;
 int main()
 {
-	
-    std::cout << "Hello World!\n"; 
+	cout << "Welcome to the C++ Tools demo" << endl << "Press Enter to Start the Demo " << endl << endl;
+	string temp;
+	cin >> temp;
+	cout << endl << endl << "- Stacks -" << endl;
+	Stack<int> demo_stack;
+	demo_stack.push(3);
+	demo_stack.push(2);
+	demo_stack.push(1);
+	demo_stack.push(4);
+	cout << "Created stack with {4,1,2,3}" << endl;
+	cout << "Poping of the stack...got " << demo_stack.pop() << endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
