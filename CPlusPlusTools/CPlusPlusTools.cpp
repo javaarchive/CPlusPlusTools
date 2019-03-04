@@ -3,9 +3,10 @@
 
 #include "pch.h"
 #include <iostream>
-
+#include "Point.h"
 int main()
 {
+	
     std::cout << "Hello World!\n"; 
 }
 
