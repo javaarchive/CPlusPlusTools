@@ -16,7 +16,7 @@ public:
 	int length();
 	~Queue()
 	{
-		delete storage;
+		
 	}
 };
 
@@ -27,7 +27,7 @@ void Queue<T>::add(T item) {
 template <class T>
 T Queue<T>::poll() {
 	T temp = storage.at(0);
-	storage.erase(0);
+	storage.erase(storage.begin());
 	return temp;
 }
 template <class T>

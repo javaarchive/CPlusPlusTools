@@ -10,15 +10,32 @@ int main()
 {
 	cout << "Welcome to the C++ Tools demo" << endl << "Press Enter to Start the Demo " << endl << endl;
 	string temp;
-	cin >> temp;
+	getline(cin, temp);
 	cout << endl << endl << "- Stacks -" << endl;
 	Stack<int> demo_stack;
 	demo_stack.push(3);
 	demo_stack.push(2);
 	demo_stack.push(1);
 	demo_stack.push(4);
-	cout << "Created stack with {4,1,2,3}" << endl;
+	cout << "Created stack with {3,2,1,4}" << endl;
 	cout << "Poping of the stack...got " << demo_stack.pop() << endl;
+	cout << "Poping of the stack...got " << demo_stack.pop() << endl;
+	cout << "Poping of the stack...got " << demo_stack.pop() << endl;
+	cout << "Poping of the stack...got " << demo_stack.pop() << endl;
+	cout << endl << endl << "- Queues -" << endl;
+	cout << "Created stack with {2,0,1,9}" << endl;
+	Queue<int> demo_queue;
+	demo_queue.add(2);
+	demo_queue.add(0);
+	demo_queue.add(1);
+	demo_queue.add(9);
+	cout << "Dequeueing.. got " << demo_queue.poll() << endl;
+	cout << "Dequeueing.. got " << demo_queue.poll() << endl;
+	cout << "Dequeueing.. got " << demo_queue.poll() << endl;
+	cout << "Dequeueing.. got " << demo_queue.poll() << endl;
+	cout << "-- Demo Finished --" << endl << "press enter to exit";
+	getline(cin, temp);
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
