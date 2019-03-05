@@ -19,6 +19,8 @@ public:
 		this->x = x;
 		this->y = y;
 	}
+	Point reflecty();
+	Point reflectx();
 	~Point();
 };
 
