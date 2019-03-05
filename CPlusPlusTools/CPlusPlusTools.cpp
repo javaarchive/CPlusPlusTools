@@ -33,7 +33,11 @@ int main()
 	cout << "Dequeueing.. got " << demo_queue.poll() << endl;
 	cout << "Dequeueing.. got " << demo_queue.poll() << endl;
 	cout << "Dequeueing.. got " << demo_queue.poll() << endl;
-	cout << "-- Demo Finished --" << endl << "press enter to exit";
+	cout << endl << endl << "- Point -" << endl << endl;
+	Point a= Point(0,3);
+	Point b =Point(4,0);
+	cout << endl << "Distance between point (0,3) and (4,0)" << a.getDist(a,b)<< endl;
+	cout << endl << "-- Demo Finished --" << endl << "press enter to exit";
 	getline(cin, temp);
 }
 
