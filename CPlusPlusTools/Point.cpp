@@ -5,4 +5,5 @@
 
 Point::~Point()
 {
+	
 }
