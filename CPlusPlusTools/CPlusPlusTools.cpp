@@ -35,7 +35,6 @@ int main()
 	cout << "Dequeueing.. got " << demo_queue.poll() << endl;
 	cout << "-- Demo Finished --" << endl << "press enter to exit";
 	getline(cin, temp);
-
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
