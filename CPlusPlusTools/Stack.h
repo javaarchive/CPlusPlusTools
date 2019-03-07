@@ -8,7 +8,7 @@ public:
 	Stack<T>() {
 		
 	}
-
+	bool empty() { return storage.empty; }
 	void push(T item);
 	T pop();
 	int length();

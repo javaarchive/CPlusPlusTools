@@ -13,6 +13,8 @@ public:
 	T poll();
 	T peek();
 	T dequeue() { return poll(); }
+
+	bool empty() { return storage.empty(); }
 	int length();
 	~Queue()
 	{

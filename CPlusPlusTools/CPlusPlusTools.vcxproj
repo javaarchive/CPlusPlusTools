@@ -155,6 +155,7 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="sha224.h" />
     <ClInclude Include="Stack.h" />
   </ItemGroup>
   <ItemGroup>
@@ -167,10 +168,15 @@
     </ClCompile>
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Queue.cpp" />
+    <ClCompile Include="sha224.cpp" />
+    <ClCompile Include="Source.cpp" />
     <ClCompile Include="Stack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CPlusPlusTools.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="sha224license.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

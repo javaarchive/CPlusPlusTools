@@ -6,7 +6,7 @@
 #include "Stack.h"
 #include "Queue.h"
 using namespace std;
-int main()
+int mainold()
 {
 	cout << "Welcome to the C++ Tools demo" << endl << "Press Enter to Start the Demo " << endl << endl;
 	string temp;
@@ -39,6 +39,7 @@ int main()
 	cout << endl << "Distance between point (0,3) and (4,0)" << a.getDist(a,b)<< endl;
 	cout << endl << "-- Demo Finished --" << endl << "press enter to exit";
 	getline(cin, temp);
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
