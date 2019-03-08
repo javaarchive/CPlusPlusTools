@@ -6,7 +6,70 @@
 #include "Stack.h"
 #include "Queue.h"
 #include <string>
-
+#include <thread>
+#include <mutex>
+using namespace std::this_thread;     // sleep_for, sleep_until
+using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
+using std::chrono::system_clock;
+std::mutex clock;
+std::mutex lock;
+void bird() {
+	for (int i = 0; i < 5; i++) {
+		std::cout << "Birdy Test" << std::endl;
+	}
+}
+void consumer(Queue<std::string> *check, int *count, std::string target, bool *done,int LIMIT,std::string possible) {
+	while (!((*check).empty()) && !(*done)) {
+		(*count)++;
+		while (*lock == true) {
+			sleep_for(200ms);
+			std::cout << "Waiting for the lock";
+		}
+		*lock = true;
+		std::string test = (*check).poll();
+		if (test == "azz" || (*count) == 1352) {
+			std::cout << "-/-";
+		}
+		*lock = false;
+		std::string result = sha224(test);
+		std::cout <<std::endl << (*count) << ": " << test;
+		if (result == target) {
+			int count = 0;
+			while (*clock == true) {
+				count++;
+				sleep_for(200ms);
+				std::cout << std::endl << ("Waiting for the lock to submit answer T: "+std::to_string(count));
+			}
+			
+			*clock = true;
+			*done = true;
+			sleep_for(2ms);
+			std::cout << std::endl << "================= Crack Complete =================" << "\n" << "The password was " << test << std::endl << std::endl;
+			sleep_for(5s);
+			*clock = false;
+			break;
+		}
+		
+		if (!(test.length() == LIMIT)) {
+			for (std::string::size_type i = 0; i < possible.size(); ++i) {
+				int count = 0;
+				while (*lock == true) {
+					count++;
+					sleep_for(200ms);
+					std::cout << ("Waiting for the lock T:"+count) << std::endl;
+				}
+				*lock = true;
+				(*check).add(test + possible[i]);
+				*lock = false;
+			}
+		}
+		test.clear();
+		result.clear();
+	}
+	if (!done) {
+		//std::cout << "FAILED: Failed to find match" << std::endl;
+	}
+}
 int main()
 {
 	// CONFIG
@@ -17,7 +80,7 @@ int main()
 	Queue<std::string> check;
 	std::string target;
 	std::cout << std::endl;
-	std::cout << "Enter target hash to be cracked: " << std::endl;
+	std::cout << std::endl << std::endl << "Enter target hash to be cracked: " << std::endl;
 	std::cin >> target;
 	std::string msg = "Cracking: ";
 	std::cout << msg + target;
@@ -27,25 +90,17 @@ int main()
 	}
 	bool done = false;
 	int count = 0;
-	while (!(check.empty())) {
-		count++;
-		std::string test = check.poll();
-		std::string result = sha224(test);
-		std::cout << count << ": " << test << std::endl;
-		if (result == target) {
-			std::cout << std::endl << "================= Crack Complete =================" << std::endl << "The password was " << test << std::endl;
-			done = true;
-			break;
-		}
-		if (!(test.length() == LIMIT)) {
-			for (std::string::size_type i = 0; i < possible.size(); ++i) {
-				check.add(test + possible[i]);
-			}
-		}
-		test.clear();
-		result.clear();
+	std::vector<std::thread> pool;
+	int CORES = 4;
+	//bool lock = false;
+	//bool clock = false;
+	
+	for (int i = 0; i < CORES; i ++) {
+	pool.push_back(std::thread (*consumer, &check, &count, target, &done, LIMIT, possible));
+}
+	for (int i = 0; i < CORES; i++) {
+		pool[i].join();
+		std::cout << "+++++++++++++++++++++ Terminated ++++++++++++++++++++";
 	}
-	if (!done) {
-		std::cout << "FAILED: Failed to find match" << std::endl;
-	}
+	
 }
