@@ -1,22 +1,31 @@
-// CPlusPlusTools.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// md5 pi finder. Please include pi for calculation if it is not present already
+// Credits to http://www.zedwood.com/article/cpp-md5-function for msd5 functions
+// The file from ^^^^^^^^^^^^^^ has not been modified. You are free to use it under Creative Commons CC-By-SA 3.0
 #include "pch.h"
 #include <iostream>
 #include <string>
-#include "sha224.h"
+#include "md5.h"
 #include "Stack.h"
 #include "Queue.h"
 #include <string>
 #include <thread>
 #include <mutex>
+#include <fstream>
 using namespace std::this_thread;     // sleep_for, sleep_until
 using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
 using std::chrono::system_clock;
 std::mutex lock2;
 std::mutex lock;
+std::string pi_str = "31415";
 void bird() {
 	for (int i = 0; i < 5; i++) {
 		std::cout << "Birdy Test" << std::endl;
 	}
+}
+void log(std::string data) {
+	std::ofstream outfile;
+	outfile.open("results.log", std::ios_base::app);
+	outfile << data;
 }
 void consumer(Queue<std::string> *check, int *count, std::string target, bool *done,int LIMIT,std::string possible) {
 	while (!((*check).empty()) && !(*done)) {
@@ -28,16 +37,11 @@ void consumer(Queue<std::string> *check, int *count, std::string target, bool *d
 			std::cout << "-/-";
 		}
 		lock.unlock();
-		std::string result = sha224(test);
+		std::string result = md5(test);
 		std::cout <<std::endl << (*count) << ": " << test;
-		if (result == target) {
-			lock2.lock();
-			*done = true;
-			sleep_for(2ms);
-			std::cout << std::endl << "================= Crack Complete =================" << "\n" << "The password was " << test << std::endl << std::endl;
-			sleep_for(5s);
-			lock2.unlock();
-			break;
+		if (result.find(pi_str) != std::string::npos) {
+			log(std::to_string(*count) +  ": " + test + " contains " + pi_str + " when hashed to " + result + "\n");
+			std::cout << "\a";
 		}
 		
 		if (!(test.length() == LIMIT)) {
@@ -59,14 +63,15 @@ int main()
 {
 	// CONFIG
 	const bool manualPossibleChars = false; // Ask for list of characters to try
-	const int LIMIT = 5; // String length limit
+	const int LIMIT = 4; // String length limit
 	//const std::string possible = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	const std::string possible = "abcdefghijklmnopqrstuvwxyz";
 	Queue<std::string> check;
 	std::string target;
 	std::cout << std::endl;
 	std::cout << std::endl << std::endl << "Enter target hash to be cracked: " << std::endl;
-	std::cin >> target;
+	// No target for md5 pi search
+	//std::cin >> target;
 	std::string msg = "Cracking: ";
 	std::cout << msg + target;
 	for (std::string::size_type i = 0; i < possible.size(); ++i) {
@@ -87,5 +92,5 @@ int main()
 		pool[i].join();
 		std::cout << "+++++++++++++++++++++ Terminated ++++++++++++++++++++";
 	}
-	
+	return 0;
 }
