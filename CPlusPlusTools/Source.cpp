@@ -11,7 +11,7 @@
 using namespace std::this_thread;     // sleep_for, sleep_until
 using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
 using std::chrono::system_clock;
-std::mutex clock;
+std::mutex lock2;
 std::mutex lock;
 void bird() {
 	for (int i = 0; i < 5; i++) {
@@ -21,46 +21,31 @@ void bird() {
 void consumer(Queue<std::string> *check, int *count, std::string target, bool *done,int LIMIT,std::string possible) {
 	while (!((*check).empty()) && !(*done)) {
 		(*count)++;
-		while (*lock == true) {
-			sleep_for(200ms);
-			std::cout << "Waiting for the lock";
-		}
-		*lock = true;
+		
+		lock.lock();
 		std::string test = (*check).poll();
 		if (test == "azz" || (*count) == 1352) {
 			std::cout << "-/-";
 		}
-		*lock = false;
+		lock.unlock();
 		std::string result = sha224(test);
 		std::cout <<std::endl << (*count) << ": " << test;
 		if (result == target) {
-			int count = 0;
-			while (*clock == true) {
-				count++;
-				sleep_for(200ms);
-				std::cout << std::endl << ("Waiting for the lock to submit answer T: "+std::to_string(count));
-			}
-			
-			*clock = true;
+			lock2.lock();
 			*done = true;
 			sleep_for(2ms);
 			std::cout << std::endl << "================= Crack Complete =================" << "\n" << "The password was " << test << std::endl << std::endl;
 			sleep_for(5s);
-			*clock = false;
+			lock2.unlock();
 			break;
 		}
 		
 		if (!(test.length() == LIMIT)) {
 			for (std::string::size_type i = 0; i < possible.size(); ++i) {
 				int count = 0;
-				while (*lock == true) {
-					count++;
-					sleep_for(200ms);
-					std::cout << ("Waiting for the lock T:"+count) << std::endl;
-				}
-				*lock = true;
+				lock.lock();
 				(*check).add(test + possible[i]);
-				*lock = false;
+				lock.unlock();
 			}
 		}
 		test.clear();
